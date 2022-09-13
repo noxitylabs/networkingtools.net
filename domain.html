@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="js/ip-address.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment-duration-format/2.3.2/moment-duration-format.js"></script>
+    <title>Tools | Domain lookup</title>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" />
+  </head>
+  <body>
+    <ul id="menu">
+      <li><a href="index.html"><i class="fas fa-home"></i><p>Home</p></a></li>
+      <li><a href="password.html"><i class="fas fa-key"></i><p>Password generator</p></a></li>
+      <li><a href="ipRangeToCidr.html"><i class="fas fa-network-wired"></i><p>IPv4 range to subnet</p></a></li>
+      <li><a href="ipv4subnet.html"><i class="fas fa-calculator"></i><p>IPv4 subnet calculator</p></a></li>
+      <li><a href="ipv6subnet.html"><i class="fas fa-calculator"></i><p>IPv6 subnet calculator</p></a></li>
+      <li><a href="ipv4convert.html"><i class="fas fa-exchange"></i><p>IPv4 converter</p></a></li>
+      <li><a href="unixtime.html"><i class="fas fa-clock"></i><p>Unix time converter</p></a></li>
+      <li><a href="domain.html"><i class="fas fa-search"></i><p>Domain lookup</p></a></li>
+    </ul>
+    
+    <div id="content">
+      <div id="hero">
+        <h1>Domain Lookup</h1>
+        <p>This tool will lookup a domain of your choice for you!</p>
+      </div>
+
+      <div class="break"></div>
+      <!-- idk if thre's a better way of doing something when enter is pressed -->
+      <input class="main" type="text" id="domainField" placeholder="Enter a domain e.g. example.com...">
+      
+      <div class="buttons">
+        <button id="lookupButton" onclick="lookupDomain()">Lookup</button>
+      </div>
+
+      <div class="break"></div>
+      
+      <div class="options">
+        <div>
+          <label for="displaySelect">DNS</label>
+          <select id="dnsSelect" value="cloudflare-dns.com/dns-query">
+            <option value="cloudflare-dns.com/dns-query">Cloudflare</option>
+            <option value="dns.google/resolve">Google</option>
+            <option value="dns.quad9.net:5053/dns-query">Quad9</option>
+          </select>
+        </div>
+      </div>
+      
+      <div class="break"></div>
+      <div id="recordContainer" class="code-block-results">Results will appear here.</div>
+    </div>
+
+    <script>
+      const cfv4 = [
+        "173.245.48.0/20",
+        "103.21.244.0/22",
+        "103.22.200.0/22",
+        "103.31.4.0/22",
+        "141.101.64.0/18",
+        "108.162.192.0/18",
+        "190.93.240.0/20",
+        "188.114.96.0/20",
+        "197.234.240.0/22",
+        "198.41.128.0/17",
+        "162.158.0.0/15",
+        "172.64.0.0/13",
+        "131.0.72.0/22",
+        "104.16.0.0/13",
+        "104.24.0.0/14",
+      ];
+      const cfv6 = [
+        "2400:cb00::/32",
+        "2606:4700::/32",
+        "2803:f800::/32",
+        "2405:b500::/32",
+        "2405:8100::/32",
+        "2a06:98c0::/29",
+        "2c0f:f248::/32",
+      ];
+
+      const recordTypes = [
+        "A",
+        "AAAA",
+        "CNAME",
+        "NS",
+        "TXT",
+        "SRV",
+        "MX",
+        "SPF",
+        "SOA",
+        "PTR",
+      ];
+
+      const recordContainer = document.getElementById("recordContainer");
+      const domainField = document.getElementById("domainField");
+      domainField.addEventListener("keyup", (e) => {
+        if (e.key === "Enter" || e.keyCode === 13) lookupDomain();
+      });
+
+      function lookupDomain() {
+        if (!domainField.value) return;
+
+        recordContainer.innerHTML = "";
+        for (const recordType of recordTypes) {
+          const labelP = document.createElement("p");
+          labelP.innerText = recordType;
+          const recordTags = [];
+
+          const ipDiv = document.createElement("div");
+          ipDiv.classList.add("code-block");
+          sendLookup(domainField.value, recordType)
+            .then((ipData) => {
+              ips = ipData.map((it) => it.data);
+              if (ips.length < 1) {
+                ipDiv.innerHTML = `No ${recordType} records found.`;
+                return;
+              }
+
+              recordTags.push(
+                moment
+                  .duration(ipData[0].TTL, "seconds")
+                  .format("d [days] h [hours] m [minutes] [and] s [seconds]") +
+                  " TTL"
+              );
+
+              const formatted = formatRecords(ips, recordType);
+              if (formatted.includes("cf__proxy")) {
+                recordTags.push("Cloudflare proxy");
+                formatted.splice(formatted.indexOf("cf__proxy"), 1); // that moment when js doesn't have a function to remove by value :/
+              }
+
+              for (let i = 0; i < formatted.length; i++) {
+                const part = formatted[i];
+                if (typeof part === "string") ipDiv.innerHTML += part;
+                else ipDiv.appendChild(part);
+                if (i < formatted.length - 1) {
+                  //ipDiv.appendChild(document.createElement("br"));
+                  //ipDiv.appendChild(document.createElement("br"));
+                }
+              }
+            })
+            .catch((err) => {
+              console.error(err);
+              ipDiv.innerText = `There was a problem trying to resolve ${recordType} records. Please refer to the browser console for more info.`;
+            })
+            .then(() => {
+              if (recordTags.length > 0)
+                labelP.innerText += " (" + recordTags.join(", ") + ")";
+              labelP.innerText += ":";
+              //ipDiv.appendChild(document.createElement("br"));
+              //ipDiv.appendChild(document.createElement("br"));
+            });
+
+          recordContainer.appendChild(labelP);
+          recordContainer.appendChild(ipDiv);
+        }
+      }
+
+      function formatRecords(ips, recordType) {
+        switch (recordType) {
+          case "A":
+          case "AAAA":
+            const parts = [];
+            const AddressType = recordType === "A" ? ip.Address4 : ip.Address6;
+
+            for (const ipAddress of ips) {
+              const link = document.createElement("a");
+              link.href = "https://whatismyipaddress.com/ip/" + ipAddress;
+              link.target = "_blank";
+              link.innerText = ipAddress;
+              // checking if ip is valid because with cname records you will get a response where 1st element is a domain and the others are the ip
+              try {
+                new AddressType(ipAddress);
+              } catch {
+                continue;
+              }
+              parts.push(link);
+            }
+
+            out: for (const subnet of recordType === "A" ? cfv4 : cfv6) {
+              mask = new AddressType(subnet);
+              for (const ipAddress of ips)
+                try {
+                  if (new AddressType(ipAddress).isInSubnet(mask)) {
+                    parts.push("cf__proxy");
+                    break out;
+                  }
+                } catch {}
+            }
+            return parts;
+          default:
+            return ips.map(v => { return `<p>${v}</p>`; });
+        }
+      }
+
+      function sendLookup(domain, type) {
+        const dnsSelect = document.getElementById("dnsSelect");
+        return fetch(
+          `https://${dnsSelect.value}?name=${encodeURI(domain)}&type=${type}`,
+          {
+            method: "GET",
+            headers: {
+              Accept: "application/dns-json",
+            },
+          }
+        )
+          .then((data) => data.json())
+          .then((data) => {
+            if (!data["Answer"]) return [];
+            return data["Answer"];
+          });
+      }
+    </script>
+  </body>
+</html>

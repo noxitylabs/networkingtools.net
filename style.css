@@ -1,0 +1,380 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat&display=swap");
+
+* {
+    border: 0;
+    outline: 0;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-variant-ligatures: none;
+    -webkit-font-smoothing: antialiased;
+}
+
+html {
+    font-size: 18px;
+    background: #212529;
+}
+
+body {
+    color: #fff;
+    background: #303c48;
+    font-family: "Montserrat", sans-serif;
+    font-size: 1rem;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: stretch;
+    max-width: 1480px;
+    width: 100%;
+    margin: 0 auto;
+    box-shadow: 0 0 2000px #af2247;
+}
+
+button {
+  background-color: #af2247;
+  border-radius: 8px;
+  color: white;
+}
+
+a {
+  color: white;
+  text-decoration: none;
+}
+
+select {
+    background: #526374;
+    color: #fff;
+    font-size: 1rem;
+    display: block;
+    padding: 12px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+#menu {
+    background: #af2247;
+    padding: 32px;
+    display: flex;
+    list-style: none;
+    gap: 16px;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    font-weight: 600;
+}
+
+#menu li {
+    max-width: 124px;
+    width: 100%;
+    text-align: center;
+}
+
+#menu a {
+    display: block;
+    font-size: 1rem;
+    text-transform: uppercase;
+    width: 100%;
+}
+
+#menu a i {
+    display: block;
+    font-size: 1.4rem;
+    text-decoration: none;
+    margin-bottom: 8px;
+    opacity: .75;
+}
+
+#menu li a:hover p {
+    text-decoration: underline;
+}
+
+#content {
+    flex: 1;
+    padding: 64px;
+    text-align: center;
+}
+
+#hero h1 {
+    font-size: 2.46rem;
+    margin-bottom: 16px;
+    font-weight: 600;
+}
+
+#hero p {
+    font-size: 1.2rem;
+}
+
+.break {
+    height: 32px;
+}
+
+input.main {
+    padding: 16px 24px;
+    font-size: 1.4rem;
+    display: block;
+    background: #526374;
+    color: #fff;
+    max-width: 640px;
+    width: 100%;
+    margin: 0 auto;
+    border-radius: 5000px;
+}
+
+input.main::placeholder {
+    color: #ccc;
+}
+
+input.main:hover,
+input.main:focus {
+    background: #697f96;
+}
+
+input#passField, input#pinField {
+    font-family: "Consolas", monospace;
+    letter-spacing: -.5px;
+}
+
+input#passLen {
+    max-width: 74px;
+}
+
+.buttons {
+    margin: 32px 0 0 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+.buttons button {
+    margin: 0;
+    font-size: 1.14rem;
+    padding: 16px 24px;
+    display: block;
+    line-height: 1;
+    cursor: pointer;
+    border-radius: 8px;
+    font-weight: 600;
+    user-select: none;
+}
+
+.buttons button:hover {
+    background: #b82e52;
+}
+
+.options {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+}
+
+.options > div {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 16px;
+    background: rgb(82 99 116 / 45%);
+    line-height: 1;
+    border-radius: 4px;
+}
+
+.options input {
+    font-size: 1rem;
+    border-radius: 4px;
+    padding: 12px 16px;
+    margin: 0;
+}
+
+.options input[type="range"] {
+    padding: 12px 0;
+}
+
+.options input.auto {
+    width: auto;
+    max-width: none;
+}
+
+:is(.results-iprangesubnet, .results-ipsubnet):not(:empty) {
+    margin-top: 32px;
+    font-size: 1.4rem;
+    font-family: "Consolas", monospace;
+    line-height: 1.4;
+}
+
+p.current-time {
+    font-size: 1.24rem;
+    font-weight: 600;
+    display: block;
+}
+
+p.current-time span {
+    display: block;
+    margin-top: 8px;
+    font-size: 2.6rem;
+    font-family: "Consolas", monospace;
+    color: limegreen;
+}
+
+.bvals {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    flex-wrap: wrap;
+    align-items: center;
+    color: #ccc;
+}
+
+.bvals p:first-of-type {
+    font-weight: bold;
+    color: #fff;
+}
+
+#errorField {
+    color: #ff6c40;
+}
+
+.code-block-results {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    max-width: 760px;
+    width: 100%;
+    margin: 0 auto;
+}
+
+.code-block-results > p {
+    display: block;
+    font-size: 1.14rem;
+    font-weight: bold;
+}
+
+.code-block-results .code-block {
+    display: block;
+    padding: 16px;
+    background: #384857;
+    border-radius: 16px;
+    border: 1px solid #4c6783;
+    font-family: "Consolas", monospace;
+    line-height: 1.4;
+    text-align: center;
+}
+
+.code-block-results .code-block :is(a, p) {
+    display: block;
+    width: fit-content;
+    margin: 0 auto;
+}
+
+.halfs {
+    display: flex;
+    gap: 32px;
+    align-items: flex-start;
+}
+
+.halfs .half {
+    width: calc(50% - 16px);
+    padding: 32px;
+    background: #384857;
+    border-radius: 16px;
+    border: 1px solid #4c6783;
+}
+
+.home-tools {
+    margin-top: 64px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 32px;
+    list-style-type: none;
+    justify-content: center;
+    align-items: stretch;
+}
+
+.home-tools li {
+    max-width: 304px;
+    width: 100%;
+    display: flex;
+}
+
+.home-tools a {
+    cursor: pointer;
+    text-decoration: none;
+    display: block;
+    text-align: left;
+    padding: 24px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    width: 100%;
+    background: #384857;
+    border-radius: 16px;
+    border: 1px solid #4c6783;
+}
+
+.home-tools a:hover {
+    background: #4e6478;
+}
+
+.home-tools i {
+    color: #ec3060;
+    font-size: 2rem;
+}
+
+.home-tools p {
+    font-weight: bold;
+    text-transform: uppercase;
+    flex: 1;
+}
+
+@media only screen and (max-width: 560px) {
+    html {
+        font-size: 14px;
+    }
+    #menu {
+        flex-direction: column;
+        align-items: start;
+    }
+    #menu li {
+        max-width: none;
+    }
+    #menu a {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 16px;
+        flex-wrap: wrap;
+    }
+    #menu a i {
+        margin: 0;
+        font-size: 1rem;
+    }
+    #content {
+        padding: 32px;
+    }
+    .options > div {
+        flex-direction: column;
+        width: 100%;
+    }
+    .options > div * {
+        width: 100% !important;
+    }
+    .buttons {
+        flex-direction: column;
+    }
+    .buttons button {
+        width: 100%;
+    }
+}
+
+@media only screen and (max-width: 1200px) {
+    .halfs {
+        flex-direction: column;
+    }
+    .halfs .half {
+        width: 100%;
+    }
+}

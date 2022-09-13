@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="js/ip-address.js"></script>
+    <title>Tools | IPv4 convertor</title>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" />
+  </head>
+  <body>
+    <ul id="menu">
+      <li><a href="index.html"><i class="fas fa-home"></i><p>Home</p></a></li>
+      <li><a href="password.html"><i class="fas fa-key"></i><p>Password generator</p></a></li>
+      <li><a href="ipRangeToCidr.html"><i class="fas fa-network-wired"></i><p>IPv4 range to subnet</p></a></li>
+      <li><a href="ipv4subnet.html"><i class="fas fa-calculator"></i><p>IPv4 subnet calculator</p></a></li>
+      <li><a href="ipv6subnet.html"><i class="fas fa-calculator"></i><p>IPv6 subnet calculator</p></a></li>
+      <li><a href="ipv4convert.html"><i class="fas fa-exchange"></i><p>IPv4 converter</p></a></li>
+      <li><a href="unixtime.html"><i class="fas fa-clock"></i><p>Unix time converter</p></a></li>
+      <li><a href="domain.html"><i class="fas fa-search"></i><p>Domain lookup</p></a></li>
+    </ul>
+
+    <div id="content">
+      <div id="hero">
+        <h1>IPv4 Converter</h1>
+      </div>
+
+      <div class="break"></div>
+
+      <div class="options">
+        <div>
+          <input class="main" id="ipField" placeholder="178.18.0.1" oninput="convertIp()" />
+        </div>
+      </div>
+
+      <div class="buttons">
+        <button>Convert</button>
+      </div>
+
+      <div class="results-ipsubnet">
+        <h4 id="errorField"></h4>
+
+        <div class="bvals"><p>IPv4:</p><p id="ipv4">...</p></div>
+        <div class="bvals"><p>IPv6 (short):</p><p id="ipv6s">...</p></div>
+        <div class="bvals"><p>IPv6 (long):</p><p id="ipv6l">...</p></div>
+        <div class="bvals"><p>Integer:</p><p id="ipi">...</p></div>
+        <div class="bvals"><p>Hex:</p><p id="iph">...</p></div>
+      </div>
+    </div>
+
+    <script>
+      const errorField = document.getElementById("errorField");
+
+      convertIp();
+      function convertIp() {
+        errorField.innerText = "";
+        const ipField = document.getElementById("ipField");
+        const ipv4 = document.getElementById("ipv4");
+        const ipv6s = document.getElementById("ipv6s");
+        const ipv6l = document.getElementById("ipv6l");
+        const ipi = document.getElementById("ipi");
+        const iph = document.getElementById("iph");
+
+        if (!ipField.value) return;
+        if (!ipField.value.split(".")[3]) return;
+        let address;
+        try {
+          // don't question it
+          if (!!ipField.value.split("/")[1]) throw Error();
+          address = new ip.Address4(ipField.value);
+        } catch {
+          errorField.innerText = "Invalid IP address";
+          ipv4.innerText = "";
+          ipv6s.innerText = "";
+          ipv6l.innerText = "";
+          ipi.innerText = "";
+          iph.innerText = "";
+          return;
+        }
+        ipv4.innerText = address.address;
+        ipv6s.innerText = ip.Address6.fromAddress4(
+          address.address
+        ).correctForm();
+        ipv6l.innerText = ip.Address6.fromAddress4(
+          address.address
+        ).canonicalForm();
+        ipi.innerText = Number(address.bigInteger());
+
+        // original method give a number in a format like 00:00:00:00 which would be then converted to 0x00000000
+        iph.innerText = "0x" + address.toHex().toUpperCase().replace(/:+/g, "");
+      }
+    </script>
+  </body>
+</html>

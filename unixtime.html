@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tools | Unix time convertor</title>
+    <script src="https://momentjs.com/downloads/moment.min.js"></script>
+    <script src="https://momentjs.com/downloads/moment-timezone-with-data-10-year-range.min.js"></script>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" />
+  </head>
+  <body>
+    <ul id="menu">
+      <li><a href="index.html"><i class="fas fa-home"></i><p>Home</p></a></li>
+      <li><a href="password.html"><i class="fas fa-key"></i><p>Password generator</p></a></li>
+      <li><a href="ipRangeToCidr.html"><i class="fas fa-network-wired"></i><p>IPv4 range to subnet</p></a></li>
+      <li><a href="ipv4subnet.html"><i class="fas fa-calculator"></i><p>IPv4 subnet calculator</p></a></li>
+      <li><a href="ipv6subnet.html"><i class="fas fa-calculator"></i><p>IPv6 subnet calculator</p></a></li>
+      <li><a href="ipv4convert.html"><i class="fas fa-exchange"></i><p>IPv4 converter</p></a></li>
+      <li><a href="unixtime.html"><i class="fas fa-clock"></i><p>Unix time converter</p></a></li>
+      <li><a href="domain.html"><i class="fas fa-search"></i><p>Domain lookup</p></a></li>
+    </ul>
+
+    <div id="content">
+      <div id="hero">
+        <h1>Unix Time Converter</h1>
+      </div>
+
+      <div class="break"></div>
+
+      <p class="current-time">Current unix time is (PC Local time):<span id="currentTime"></span></p>
+
+      <div class="break"></div>
+
+      <div class="halfs">
+        <div class="half">
+          <div class="options">
+            <div>
+              <label for="formatSelect">Format:</label>
+              <select id="formatSelect" value="system" onchange="unixTime()">
+                <option value="system">Your System</option>
+                <option value="en-US">American</option>
+                <option value="de-DE">European</option>
+              </select>
+            </div>
+          </div>
+    
+          <div class="break"></div>
+    
+          <input class="main" type="number" id="timeField" onchange="unixTime()" />
+
+          <div class="break"></div>
+
+          <div class="options">
+            <div>
+              <!-- JS will fill the select -->
+              <select id="timezoneSelect" value="UTC" onchange="unixTime()"></select>
+            </div>
+          </div>
+
+          <div class="break"></div>
+
+          <p id="convertedField"></p>
+        </div>
+        <div class="half">
+          <div class="options">
+            <div>
+              <!-- auto-filled by js -->
+              <select id="daySelect" value="1" onchange="normalTime()"></select>
+              <!-- auto-filled by js -->
+              <select id="monthSelect" value="1" onchange="normalTime()"></select>
+              <input
+                type="number"
+                id="yearInput"
+                min="1970"
+                value="2021"
+                onchange="normalTime()"
+                class="main auto"
+              />
+              <input
+                type="number"
+                id="hourInput"
+                min="0"
+                max="23"
+                value="0"
+                onchange="normalTime()"
+                class="main auto"
+              />
+              <input
+                type="number"
+                id="minuteInput"
+                min="0"
+                max="59"
+                value="0"
+                onchange="normalTime()"
+                class="main auto"
+              />
+              <input
+                type="number"
+                id="secondInput"
+                min="0"
+                max="59"
+                value="0"
+                onchange="normalTime()"
+                class="main auto"
+              />
+            </div>
+          </div>
+      
+          <div class="break"></div>
+      
+          <p id="convertedUnixField"></p>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const currentTime = document.getElementById("currentTime");
+      setInterval(() => {
+        currentTime.innerText = parseInt(Date.now() / 1000);
+      }, 1000);
+
+      const timezoneSelect = document.getElementById("timezoneSelect");
+      const daySelect = document.getElementById("daySelect");
+      const monthSelect = document.getElementById("monthSelect");
+      autofillSelects();
+
+      const time = document.getElementById("timeField");
+      time.value = Math.floor(Date.now() / 1000);
+      unixTime();
+      normalTime();
+
+      // unix to human readable
+      function unixTime() {
+        const converted = document.getElementById("convertedField");
+        const formatSelect = document.getElementById("formatSelect");
+
+        const unix = parseInt(time.value) * 1000;
+
+        let format = navigator.languages ? navigator.languages[0] : "en-EN";
+        if (formatSelect.value != "system") format = formatSelect.value;
+        converted.innerText = new Date(unix).toLocaleString(format, {
+          timeZone: timezoneSelect.value,
+        });
+      }
+
+      // human readable to unix
+      function normalTime() {
+        const day = daySelect.value;
+        const month = monthSelect.value - 1;
+        const year = document.getElementById("yearInput").value;
+        const hour = document.getElementById("hourInput").value;
+        const minute = document.getElementById("minuteInput").value;
+        const second = document.getElementById("secondInput").value;
+        const convertedUnix = document.getElementById("convertedUnixField");
+
+        const date = new Date(year, month, day, hour, minute, second);
+        convertedUnix.innerText = Math.floor(date.getTime() / 1000);
+      }
+
+      function autofillSelects() {
+        function appendOption(select, value, innerText) {
+          const option = document.createElement("option");
+          option.value = value;
+          option.innerText = innerText;
+          select.appendChild(option);
+        }
+
+        appendOption(timezoneSelect, "UTC", "UTC");
+        for (const zone of moment.tz.names()) {
+          if (zone == "UTC") continue;
+          appendOption(timezoneSelect, zone, zone);
+        }
+
+        for (let i = 1; i <= 31; i++) appendOption(daySelect, i, i);
+        for (let i = 1; i <= 12; i++) appendOption(monthSelect, i, i);
+      }
+    </script>
+  </body>
+</html>
