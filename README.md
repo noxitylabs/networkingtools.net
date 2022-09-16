@@ -20,14 +20,14 @@ You can demo the project on our [public installation](https://tools.noxity.com)
 - CHMOD helper
 - htaccess/htpasswd generator
 - IP, WHOIS, BGP lookup
+- Character Counter
+- Send
+- Link shortener & unshortener
 
 ## Authors
 
 - [Matic Bončina](https://github.com/maticboncina)
 - [Gašper Dobrovoljc](https://github.com/gapidobri)
-
-
-
 
 ## Contributing
 
