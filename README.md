@@ -2,8 +2,6 @@
 
 Networkingtools.net is an innovative suite of tools designed to aid system administrators and network professionals in their daily tasks. Featuring a range of utilities from advanced password and PIN generators to an IPv4 subnet calculator, this toolkit streamlines various networking operations.
 
-![MIT License](https://img.shields.io/badge/License-MIT-green.svg)
-
 ## Table of Contents
 
 - [Features](#features)
