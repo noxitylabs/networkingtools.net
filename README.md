@@ -1,36 +1,67 @@
-# Noxity Tools
+# Networkingtools.net
 
-Noxity Tools is a dedicated set of networking tools that help system administrators in day-to-day operations. It comes with advanced networking tools like password and PIN generator, IPv4 subnet calculator, and many more.
+Networkingtools.net is an innovative suite of tools designed to aid system administrators and network professionals in their daily tasks. Featuring a range of utilities from advanced password and PIN generators to an IPv4 subnet calculator, this toolkit streamlines various networking operations.
 
 ![MIT License](https://img.shields.io/badge/License-MIT-green.svg)
 
-***
-
 ## Table of Contents
 
-*   [Demo & Features](#demo--features)
-*   [Getting Started](#getting-started)
-*   [Roadmap](#roadmap)
-*   [Todo](#todo)
-*   [Contributing](#contributing)
-*   [Authors](#authors)
-*   [Acknowledgments](#acknowledgments)
+- [Features](#features)
+- [Getting Started](#getting-started)
+- [Installation Guide](#installation-guide)
+- [Roadmap](#roadmap)
+- [Todo List](#todo-list)
+- [Contributing](#contributing)
+- [Authors and Acknowledgments](#authors-and-acknowledgments)
+- [License](#license)
 
-***
+## Features
 
-## Demo & Features
+Explore our tools at our public deployment [live demo](https://networkingtools.net). 
 
-You can demo the project on our [public installation](https://tools.noxity.com)
+Our current features include:
+- Password and PIN generator
+- IPv4 range to subnet calculator
+- IPv4 & IPv6 subnet calculator
+- IPv4 converter
+- Unix time converter
+- Domain lookup with Cloudflare proxy detection
 
-***
 
 ## Getting Started
 
-Copy the files to a web server such as cPanel and set up any dependencies.
+These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
 
-***
+### Prerequisites
+
+What things you need to install the software and how to install them:
+
+- A web server (e.g., Apache, Nginx) with PHP.
+- Basic knowledge of web server configuration
+
+### Installation Guide
+
+A step-by-step series of examples that tell you how to get a development environment running:
+
+1. Download or clone the repository.
+2. Upload the files to your web server.
+3. Configure any necessary dependencies as per the documentation.
 
 ## Roadmap
+
+Our planned features include:
+
+- Network tools like a ping tool, open port checker, and IP/WHOIS/BGP lookup.
+- Utilities such as a CRON calculator, data transfer calculator, and CHMOD helper.
+- Web tools like htaccess/htpasswd generator, character counter, and link shortener.
+
+## Todo List
+
+- Refine the UI with pico.css.
+- Development and integration of all planned tools.
+- Evaluating and potentially removing less useful features.
+
+### Roadmap
 
 *   Ping tool
 *   Open port checker
@@ -44,36 +75,14 @@ Copy the files to a web server such as cPanel and set up any dependencies.
 *   Character Counter
 *   Link shortener & unshortener
 
-***
-
-## Todo
-
-*   Update the design with pico.css
-*   Update the roadmap from Discord
-*   Code all tools
-*   Opensource the project again
-*   Remove pointless tools such as password generator
-
-***
-
 ## Contributing
 
-Contributions and suggestions are welcome. Before starting, make sure to create a feature request on the company's [Jira board](https://jira.spyingonyour.webcam).
+We welcome contributions! If you have suggestions or want to contribute, please open an issue or pull request. For major changes, please open an issue first to discuss what you would like to change.
 
-***
+## Authors and Acknowledgments
 
-## Authors
+- **Matic Bončina** - [GitHub Profile](https://github.com/maticboncina)
+- **Gašper Dobrovoljc** - [GitHub Profile](https://github.com/gapidobri)
+- **Liam Allen** - [GitHub Profile](https://github.com/WulfGamesYT) (Retired Contributor)
 
-*   [Liam Allen](https://github.com/WulfGamesYT) - Retired outside contributor
-*   [Matic Bončina](https://github.com/maticboncina)
-*   [Gašper Dobrovoljc](https://github.com/gapidobri)
-
-***
-
-## Acknowledgments
-
-There are no acknowledgments at this time.
-
-This project is not open-source and all rights are reserved by the project owners. It may be open-sourced in the future once all tools are coded.
-
-***
+Special thanks to all contributors and community members for their suggestions and ongoing support.
