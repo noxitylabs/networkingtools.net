@@ -58,6 +58,7 @@ Our planned features include:
 - Refine the UI with pico.css.
 - Development and integration of all planned tools.
 - Evaluating and potentially removing less useful features.
+- Adding validation to all forms.
 
 ### Roadmap
 
